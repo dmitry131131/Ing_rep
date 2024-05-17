@@ -10,7 +10,7 @@ max_len_title = 50
 
 title = "Процесс заряда и разряда конденсатора в RC-цепочке"
 
-marker_frequency = 25
+marker_frequency = 5
 marker_size      = 6
 
 # Раздел с параметрами АЦП
@@ -27,7 +27,7 @@ with open("settings.txt", 'r') as file:
         except ValueError:
             pass
 
-with open('data.txt', 'r') as file:
+with open("data.txt", 'r') as file:
     data_list = []
     for line in file:
         line = line.strip()
@@ -49,9 +49,9 @@ all_time       = len(data_list) * settings_list[0]
 charge_time    = data_list.index(max(data_list)) * settings_list[0]
 discharge_time = all_time - charge_time
 
-fig, ax = plt.subplots(figsize=(width_graph, hight_graph), dpi=dpi_graph)
+fig, plt_1 = plt.subplots(figsize=(width_graph, hight_graph), dpi=dpi_graph)
 
-ax.plot(time_array, data_array,
+plt_1.plot(time_array, data_array,
         linestyle="-",
         linewidth=2,
         color="#ac3b61",
@@ -66,20 +66,20 @@ ax.plot(time_array, data_array,
 # Добавление названия графика
 title_lines = wrap(title, max_len_title)
 title_text  = '\n'.join(title_lines)
-ax.set_title(title_text, loc="center")
+plt_1.set_title(title_text, loc="center")
 
-ax.set_ylim(0, 3.5)
-ax.set_xlim(0, 14)
-ax.set_xlabel("Время, с")
-ax.set_ylabel("Напряжение, В")
+plt_1.set_ylim(0, 3.5)
+plt_1.set_xlim(0, 15)
+plt_1.set_xlabel("Время, с")
+plt_1.set_ylabel("Напряжение, В")
 
-ax.minorticks_on()
-ax.grid(which="major", color="#444", ls="-", lw=1)
-ax.grid(which="minor", color="#aaa", ls=":", lw=1)
+plt_1.minorticks_on()
+plt_1.grid(which="major", color="#444", ls="-", lw=1)
+plt_1.grid(which="minor", color="#aaa", ls=":", lw=1)
 
-ax.text(12.1, 0.25, f"Общее время {round(all_time, 2)}c")
-ax.text(12.1, 0.15, f"Время заряда {round(charge_time, 2)}c")
-ax.text(12.1, 0.05, f"Время разряда {round(discharge_time, 2)}c")
-ax.legend()
+plt_1.text(12.1, 0.25, f"Общее время {round(all_time, 2)}c")
+plt_1.text(12.1, 0.15, f"Время заряда {round(charge_time, 2)}c")
+plt_1.text(12.1, 0.05, f"Время разряда {round(discharge_time, 2)}c")
+plt_1.legend()
 
 fig.savefig("graph.png")
